@@ -3,24 +3,45 @@ import { Typography, Container, TextField, Button } from '@mui/material'
 import Grid from '@mui/material/Grid2'
 import defaultQr from './assets/default-qr.png'
 import { useState } from 'react'
+import QRCode from 'react-qr-code'
 
 const App = () => {
-
-  const [url, setUrl] = useState('')
+  const [urlInput, setUrlInput] = useState('')
+  const [urlValid, setUrlValid] = useState(false)
   const [urlError, setUrlError] = useState(false)
+
+  const urlPattern = /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+(\/[a-zA-Z0-9-._~:\/?#@!$&'()*+,;=]*)?$/
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
-    setUrl(value)
+    setUrlInput(value)
+  }
 
-    const urlPattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
-      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-      '(\\#[-a-z\\d_]*)?$', 'i') // fragment locator
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
 
-    setUrlError(!urlPattern.test(url))
+    if (!urlPattern.test(urlInput)) {
+      setUrlError(true)
+      return
+    }
+
+    setUrlError(false)
+    setUrlValid(true)
+    console.log('URL válida:', urlInput)
+  }
+
+  const handleDownload = () => {
+    const QRCodeSVG = document.querySelector('svg') as SVGSVGElement
+
+    const svgData = new XMLSerializer().serializeToString(QRCodeSVG)
+    const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' })
+
+    const link = document.createElement('a')
+    link.href = URL.createObjectURL(blob)
+    link.download = 'qrcode.svg'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
   }
 
   return (
@@ -32,20 +53,37 @@ const App = () => {
 
       <Grid container spacing={2}>
         <Grid size={8}>
-          <TextField
-            error={urlError}
-            id="url-field"
-            label="Introduce tu URL"
-            variant="outlined"
-            fullWidth
-            size="medium"
-            value={url}
-            onChange={handleChange}
-            helperText={urlError ? 'Introduce una url válida' : ''} />
+
+          <form onSubmit={handleSubmit}>
+
+            <TextField
+              error={urlError}
+              id="url-field"
+              label="Introduce tu URL"
+              variant="outlined"
+              fullWidth
+              size="medium"
+              value={urlInput}
+              onChange={handleChange}
+              helperText={urlError ? 'Introduce una url válida' : ''} />
+
+            <Button variant="text" type='submit'>Generar QR</Button>
+
+          </form>
         </Grid>
         <Grid size={4}>
-          <img src={defaultQr} alt="QR Code" style={{ width: '100%', height: 'auto', opacity: '20%' }} />
-          <Button variant="contained">Descargar mi QR</Button>
+          {urlValid ?
+            <QRCode
+              size={256}
+              style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+              value={urlInput}
+              viewBox={`0 0 256 256`}
+            />
+            : <img src={defaultQr} alt="QR Code" style={{ width: '100%', height: 'auto', opacity: '20%' }} />
+          }
+
+
+          <Button variant="contained" onClick={handleDownload}>Descargar mi QR</Button>
         </Grid>
       </Grid>
 
