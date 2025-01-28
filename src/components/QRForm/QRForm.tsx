@@ -1,4 +1,4 @@
-import { Button, FormControlLabel, Stack, Switch, TextField } from "@mui/material"
+import { Button, Stack, TextField } from "@mui/material"
 import { MuiColorInput } from "mui-color-input"
 import { CSSProperties, useContext } from "react"
 import { QRContext } from "../../contexts/QRData.context"
@@ -49,7 +49,9 @@ const QRForm = () => {
         display: 'flex',
         flexDirection: 'column',
         gap: '16px',
-        marginTop: '16px'
+        marginTop: '16px',
+        width: '100%',
+        justifyContent: 'center'
     }
 
     return (

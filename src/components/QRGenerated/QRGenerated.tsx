@@ -40,10 +40,10 @@ const QRGenerated = () => {
             <QRCode
                 bgColor={bgColor}
                 fgColor={color}
-                size={256}
+                size={150}
                 style={{ height: "auto", maxWidth: "100%", width: "100%" }}
                 value={urlInput}
-                viewBox={`0 0 256 256`}
+                viewBox={`0 0 150 150`}
             />
             : <img src={defaultQr} alt="QR Code" style={{ width: '100%', height: 'auto', opacity: '20%' }} />
         }
