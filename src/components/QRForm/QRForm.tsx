@@ -1,4 +1,4 @@
-import { Button, Stack, TextField } from "@mui/material"
+import { Button, FormControlLabel, Stack, Switch, TextField } from "@mui/material"
 import { MuiColorInput } from "mui-color-input"
 import { CSSProperties, useContext } from "react"
 import { QRContext } from "../../contexts/QRData.context"
