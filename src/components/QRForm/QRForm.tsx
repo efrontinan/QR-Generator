@@ -55,7 +55,7 @@ const QRForm = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit} style={formStyle}>
+        <form onSubmit={handleSubmit} style={formStyle} className="QRForm">
             <TextField
                 error={urlError}
                 id="url-field"
@@ -71,6 +71,7 @@ const QRForm = () => {
                 <MuiColorInput
                     format='hex8'
                     value={color}
+
                     onChange={(value) => handleColorChange(value)}
                     label='Selecciona el color del QR' />
 
@@ -81,7 +82,7 @@ const QRForm = () => {
                     label='Selecciona el color de fondo' />
             </Stack>
 
-            <Button variant="text" type='submit'>Generar QR</Button>
+            <Button variant="outlined" color="primary" type='submit'>Generar QR</Button>
         </form>
     )
 }

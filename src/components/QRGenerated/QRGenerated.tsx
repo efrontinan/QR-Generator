@@ -2,12 +2,12 @@ import QRCode from "react-qr-code"
 import defaultQr from '../../assets/default-qr.png'
 import { useContext } from "react"
 import { QRContext } from "../../contexts/QRData.context"
-import { Button } from "@mui/material"
+import { Button, Stack } from "@mui/material"
 
 
 const QRGenerated = () => {
 
-    const { urlValid, bgColor, color, urlInput, } = useContext(QRContext)
+    const { urlValid, bgColor, color, urlInput } = useContext(QRContext)
 
     const handleDownload = () => {
         const QRCodeSVG = document.querySelector('svg') as SVGSVGElement
@@ -36,19 +36,29 @@ const QRGenerated = () => {
     }
 
     return (
-        <>{urlValid ?
-            <QRCode
-                bgColor={bgColor}
-                fgColor={color}
-                size={150}
-                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                value={urlInput}
-                viewBox={`0 0 150 150`}
-            />
-            : <img src={defaultQr} alt="QR Code" style={{ width: '100%', height: 'auto', opacity: '20%' }} />
-        }
-            <Button variant="contained" onClick={handleDownload}>Descargar mi QR</Button>
-        </>
+        <Stack component="section"
+            spacing={6}
+            padding={6}
+            bgcolor={'white'}
+            borderRadius={4}
+            border={1}
+            borderColor="primary.main"
+            boxShadow={'0px 8px 12px rgba(24, 0, 54, 0.2)'}
+            className="QRGenerated">
+            {urlValid ?
+                <QRCode
+                    bgColor={bgColor}
+                    fgColor={color}
+                    size={150}
+                    style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                    value={urlInput}
+                    viewBox={`0 0 150 150`}
+                />
+                : <img src={defaultQr} alt="QR Code" style={{ width: '100%', height: 'auto', opacity: '20%' }} />
+            }
+            <Button variant="contained" color="secondary" onClick={handleDownload}>Descargar mi QR</Button>
+        </Stack>
+
     )
 }
 

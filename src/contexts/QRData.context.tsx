@@ -30,7 +30,7 @@ const QRProviderWrapper: React.FC<React.PropsWithChildren<{}>> = (props) => {
     const [urlInput, setUrlInput] = useState('')
     const [urlValid, setUrlValid] = useState(false)
     const [urlError, setUrlError] = useState(false)
-    const [color, setColor] = useState('#00ff00')
+    const [color, setColor] = useState('#000000')
     const [bgColor, setBgColor] = useState('#ffffff00')
 
     return (
