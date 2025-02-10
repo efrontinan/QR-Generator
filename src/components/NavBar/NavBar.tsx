@@ -2,6 +2,7 @@ import { AppBar, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/ma
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/auth.context";
+import { useNavigate } from "react-router-dom";
 
 interface NavBarProps {
     handleClick: () => void;
@@ -16,11 +17,12 @@ const NavBar: React.FC<NavBarProps> = ({ handleClick }) => {
         setAnchorEl(event.currentTarget)
     }
 
+    const navigate = useNavigate()
 
     return (
         <AppBar position="static" color="primary" className="NavBar" >
             <Toolbar sx={{ backgroundColor: 'primary.dark' }}>
-                <Typography variant="h6" color="secondary" component="div" sx={{ flexGrow: 1 }}>
+                <Typography variant="h6" color="secondary" component="div" sx={{ flexGrow: 1, cursor: 'pointer' }} onClick={() => navigate('/')}>
                     QR·Generator
                 </Typography>
                 <div>
@@ -54,7 +56,7 @@ const NavBar: React.FC<NavBarProps> = ({ handleClick }) => {
                     >
                         {loggedUser &&
                             <>
-                                <MenuItem>Mi perfil</MenuItem>
+                                <MenuItem onClick={() => navigate('/profile')}>Mi perfil</MenuItem>
                                 <MenuItem onClick={logoutUser}>Cerrar sesión</MenuItem>
                             </>
                         }
@@ -62,7 +64,7 @@ const NavBar: React.FC<NavBarProps> = ({ handleClick }) => {
                         {!loggedUser &&
                             <>
                                 <MenuItem onClick={handleClick}>Iniciar sesión</MenuItem>
-                                <MenuItem >Registrarse</MenuItem>
+                                <MenuItem onClick={() => navigate('/signup')}>Registrarse</MenuItem>
                             </>
                         }
 

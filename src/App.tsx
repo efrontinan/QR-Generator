@@ -2,9 +2,9 @@ import './App.css'
 import { Container, CssBaseline, Dialog } from '@mui/material'
 import { ThemeProvider, createTheme } from "@mui/material/styles"
 import NavBar from './components/NavBar/NavBar'
-import QRDashboard from './components/QrDashboard/QrDashboard'
 import React from 'react'
 import LogInForm from './components/LogInForm/LogInForm'
+import AppRoutes from './routes/AppRoutes'
 
 const App = () => {
 
@@ -22,7 +22,7 @@ const App = () => {
 
       <Container maxWidth="lg" sx={{ paddingBlock: 12, maxHeight: '100vh', display: 'flex', flexDirection: 'column', gap: 4 }}>
 
-        <QRDashboard />
+        <AppRoutes />
 
       </Container >
 
