@@ -35,7 +35,7 @@ class AuthServices {
         return this.axiosApp.post('/login', userData)
     }
 
-    verifyUser(): Promise<AxiosResponse> {
+    verifyUser(token: string): Promise<AxiosResponse> {
         return this.axiosApp.get('/verify')
     }
 

@@ -3,11 +3,14 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import { QRProviderWrapper } from './contexts/QRData.context.tsx'
+import { AuthProviderWrapper } from './contexts/auth.context.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <QRProviderWrapper>
-      <App />
-    </QRProviderWrapper>
+    <AuthProviderWrapper>
+      <QRProviderWrapper>
+        <App />
+      </QRProviderWrapper>
+    </AuthProviderWrapper>
   </StrictMode>,
 )
