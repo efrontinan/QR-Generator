@@ -1,7 +1,7 @@
 import { Button, Stack, Typography } from '@mui/material'
 import Grid from '@mui/material/Grid2'
-import QRForm from '../QRForm/QRForm'
-import QRGenerated from '../QRGenerated/QRGenerated'
+import QRForm from '../../components/QRForm/QRForm'
+import QRGenerated from '../../components/QRGenerated/QRGenerated'
 import { useContext } from 'react'
 import { QRContext } from '../../contexts/QRData.context'
 

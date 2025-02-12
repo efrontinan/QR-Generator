@@ -20,7 +20,7 @@ const App = () => {
 
       <NavBar handleClick={handleClick} />
 
-      <Container maxWidth="lg" sx={{ paddingBlock: 12, maxHeight: '100vh', display: 'flex', flexDirection: 'column', gap: 4 }}>
+      <Container maxWidth="lg" sx={{ paddingBlock: 8, maxHeight: '100vh', display: 'flex', flexDirection: 'column', gap: 4 }}>
 
         <AppRoutes />
 

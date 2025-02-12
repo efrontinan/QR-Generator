@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom"
-import QRDashboard from "../components/QrDashboard/QrDashboard"
+import QRDashboard from "../pages/QrDashboard/QrDashboard"
 import PrivateRoutes from "./PrivateRoutes"
+import Signup from "../pages/SignUp/SignUp"
 
 const AppRoutes = () => {
 
@@ -8,7 +9,7 @@ const AppRoutes = () => {
         <div className="AppRoutes">
             <Routes>
                 <Route path="/" element={<QRDashboard />} />
-                <Route path="/signup" element={<h1>SignUpage</h1>} />
+                <Route path="/signup" element={<Signup />} />
 
                 <Route element={<PrivateRoutes />} >
 
