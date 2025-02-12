@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom"
 import QRDashboard from "../pages/QrDashboard/QrDashboard"
 import PrivateRoutes from "./PrivateRoutes"
 import Signup from "../pages/SignUp/SignUp"
+import Profile from "../pages/Profile/Profile"
 
 const AppRoutes = () => {
 
@@ -13,7 +14,7 @@ const AppRoutes = () => {
 
                 <Route element={<PrivateRoutes />} >
 
-                    <Route path="/profile" element={<h1>Página de perfil</h1>} />
+                    <Route path="/profile" element={<Profile />} />
 
                 </Route>
 
