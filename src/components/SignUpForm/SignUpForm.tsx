@@ -1,7 +1,14 @@
 import { Button, TextField } from "@mui/material"
-import { useState } from "react"
+import { useContext, useState } from "react"
+import authServices from "../../services/auth.services"
+import { useNavigate } from "react-router-dom"
+import { AuthContext } from "../../contexts/auth.context"
 
 const SignUpForm = () => {
+
+    const navigate = useNavigate()
+
+    const { authenticateUser } = useContext(AuthContext)
 
     const [signUpData, setSignUpData] = useState({
         email: '',
@@ -15,8 +22,32 @@ const SignUpForm = () => {
         setSignUpData({ ...signUpData, [name]: value })
     }
 
+    const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        const form = e.target as HTMLFormElement
+
+        if (form.checkValidity() === false) {
+            e.stopPropagation()
+            alert('Formulario inválido')
+            return
+        }
+
+        authServices
+            .signUpUser(signUpData)
+            .then(({ data }) => {
+                const { email } = data
+                return authServices.loginUser({ email, password: signUpData.password })
+            })
+            .then(({ data }) => {
+                localStorage.setItem('authToken', data.authToken)
+                authenticateUser()
+            })
+            .then(() => navigate('/'))
+            .catch((err) => console.log(err))
+    }
+
     return (
-        <form>
+        <form className="SignUpForm" onSubmit={handleFormSubmit}>
             <TextField
                 autoFocus
                 required
