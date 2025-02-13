@@ -1,4 +1,4 @@
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
+import { Box, Button, Skeleton, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
 import QRServices from "../../services/qr.services"
 import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "../../contexts/auth.context"
@@ -21,6 +21,9 @@ const QRsTable = () => {
     const [qrs, setQrs] = useState<QRData[]>([])
     const [isLoading, setIsLoading] = useState(true)
 
+    const [alertOpen, setAlertOpen] = useState(false)
+    const [alertMessage, setAlertMessage] = useState('Alerta')
+
     const fetchQrs = () => {
         if (loggedUser) {
             QRServices
@@ -31,52 +34,74 @@ const QRsTable = () => {
                 })
                 .catch(err => {
                     console.log(err)
-                    setIsLoading(false)
                 })
         } else {
             console.log('Usuario no verificado')
-            setIsLoading(false)
         }
     }
 
     useEffect(() => {
         fetchQrs()
-    }, [])
+    }, [loggedUser])
 
-    return (
-        <Table className="QRsTable">
-            <TableHead>
-                <TableRow>
-                    <TableCell>SVG</TableCell>
-                    <TableCell>Nombre</TableCell>
-                    <TableCell>Fecha de creación</TableCell>
-                    <TableCell></TableCell>
-                </TableRow>
-            </TableHead>
+    const deleteQr = (id: string) => {
+        QRServices
+            .deleteQr(id)
+            .then(() => {
+                alert('QR eliminado')
+                fetchQrs()
+            })
+            .catch(err => console.log(err))
+    }
 
-            <TableBody>
-                {qrs.map(qr => {
-                    return (
-                        <TableRow key={qr._id}>
-                            <TableCell>
-                                <div dangerouslySetInnerHTML={{ __html: qr.svg }} />
-                            </TableCell>
-                            <TableCell>{qr.name}</TableCell>
-                            <TableCell>{qr.createdAt}</TableCell>
-                            <TableCell>
-                                <Button>
-                                    <Delete />
-                                </Button>
-                                <Button>
-                                    <Download />
-                                </Button>
-                            </TableCell>
-                        </TableRow>
-                    )
-                })}
-            </TableBody>
+    return (isLoading ?
+        <Box >
+            <Skeleton />
+            <Skeleton animation="wave" />
+        </Box>
+        :
+        <>
+            <Table className="QRsTable">
+                <TableHead>
+                    <TableRow>
+                        <TableCell>SVG</TableCell>
+                        <TableCell>Nombre</TableCell>
+                        <TableCell>Fecha de creación</TableCell>
+                        <TableCell></TableCell>
+                    </TableRow>
+                </TableHead>
 
-        </Table>
+                <TableBody>
+                    {qrs.map(qr => {
+                        return (
+                            <TableRow key={qr._id}>
+                                <TableCell>
+                                    <div dangerouslySetInnerHTML={{ __html: qr.svg }} />
+                                </TableCell>
+                                <TableCell>{qr.name}</TableCell>
+                                <TableCell>{qr.createdAt}</TableCell>
+                                <TableCell>
+                                    <Button onClick={() => deleteQr(qr._id)}>
+                                        <Delete />
+                                    </Button>
+                                    <Button>
+                                        <Download />
+                                    </Button>
+                                </TableCell>
+                            </TableRow>
+                        )
+                    })}
+                </TableBody>
+
+            </Table>
+
+            <Snackbar
+                autoHideDuration={6000}
+                message={alertMessage}
+                open={alertOpen}
+                onClose={() => setAlertOpen(false)}
+            />
+        </>
     )
 }
 

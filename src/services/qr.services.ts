@@ -38,6 +38,15 @@ class QRServices {
             }
         })
     }
+
+    deleteQr(id: string) {
+        const token = localStorage.getItem('authToken')
+        return this.axiosApp.delete(`/code/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+    }
 }
 
 export default new QRServices()
