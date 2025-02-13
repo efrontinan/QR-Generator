@@ -1,8 +1,19 @@
 import axios, { AxiosInstance } from "axios"
 
 interface QRData {
+    _id: string
+    author: string
     svg: string
     name: string
+    createdAt: string
+    updatedAt: string
+    __v: number
+}
+
+interface ApiResponse {
+    data: QRData[]
+    status: number
+    statusText: string
 }
 
 class QRServices {
@@ -19,8 +30,13 @@ class QRServices {
         return this.axiosApp.post('/codes', qrData)
     }
 
-    getQRs(id: string): Promise<QRData[]> {
-        return this.axiosApp.get(`/codes/${id}`)
+    getQRs(id: string): Promise<ApiResponse> {
+        const token = localStorage.getItem('authToken')
+        return this.axiosApp.get(`/codes/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
     }
 }
 
